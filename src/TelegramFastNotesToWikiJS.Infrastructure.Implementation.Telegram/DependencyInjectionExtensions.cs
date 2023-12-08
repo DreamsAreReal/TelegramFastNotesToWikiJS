@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TelegramFastNotesToWikiJS.Domain.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
+using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Abstractions;
 using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Implementations;
 

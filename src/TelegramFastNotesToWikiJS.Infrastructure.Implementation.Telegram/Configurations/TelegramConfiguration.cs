@@ -1,4 +1,4 @@
-namespace TelegramFastNotesToWikiJS.Domain.Configurations;
+namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.Configurations;
 
 public class TelegramConfiguration
 {

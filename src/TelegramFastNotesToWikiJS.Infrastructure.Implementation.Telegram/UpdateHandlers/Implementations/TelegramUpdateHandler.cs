@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using TelegramFastNotesToWikiJS.Domain.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
+using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Abstractions;
 
 namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Implementations;

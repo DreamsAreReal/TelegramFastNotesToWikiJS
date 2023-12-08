@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
-using TelegramFastNotesToWikiJS.Domain.Configurations;
+using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.Configurations;
 
 namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
 
