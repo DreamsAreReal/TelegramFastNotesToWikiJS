@@ -5,9 +5,9 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramFastNotesToWikiJS.Domain.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
-using TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Abstractions;
+using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Abstractions;
 
-namespace TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Implementations;
+namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Implementations;
 
 internal class TelegramUpdateHandler(
     IOptions<TelegramConfiguration> configuration,
@@ -15,7 +15,7 @@ internal class TelegramUpdateHandler(
     TelegramUtilities telegramUtilities
 ) : ITelegramUpdateHandler
 {
-    public event Func<MessageData, Task>? OnMessageReceived;
+    public event Func<ReceivedMessage, Task>? OnMessageReceived;
 
     public Task HandlePollingErrorAsync(ITelegramBotClient botClient,
                                         Exception exception,
@@ -50,6 +50,21 @@ internal class TelegramUpdateHandler(
         }
 
         Stopwatch timer = Stopwatch.StartNew();
+        string? text = telegramUtilities.ExtractTextFromUpdate(update.Message);
+        string? photo = await telegramUtilities.GetPhotoAsync(update.Message, botClient);
+
+        if (string.IsNullOrWhiteSpace(text) &&
+            string.IsNullOrWhiteSpace(photo))
+        {
+            timer.Stop();
+
+            logger.LogWarning(
+                "Both text and photo cannot be null or whitespace. Time elapsed {ElapsedMilliseconds} ms",
+                timer.ElapsedMilliseconds
+            );
+
+            return;
+        }
 
         await OnMessageReceived.Invoke(
             new(

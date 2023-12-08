@@ -11,8 +11,8 @@
     <ItemGroup>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Domain\TelegramFastNotesToWikiJS.Domain.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Abstractions\TelegramFastNotesToWikiJS.Infrastructure.Abstractions.csproj"/>
-        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Telegram\TelegramFastNotesToWikiJS.Infrastructure.Telegram.csproj"/>
-        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.WikiJs\TelegramFastNotesToWikiJS.Infrastructure.WikiJs.csproj"/>
+        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram\TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.csproj"/>
+        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs\TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +23,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0"/>
     </ItemGroup>

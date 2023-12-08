@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TelegramFastNotesToWikiJS.Application.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
-using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
 using Environment = TelegramFastNotesToWikiJS.Application.Configurations.Environment;
 
 namespace TelegramFastNotesToWikiJS.Application;
@@ -19,15 +18,16 @@ public class Startup
                                       environmentOptions.Value.Environment;
 
         IMessageReceiver[] messageReceivers = serviceProvider.GetServices<IMessageReceiver>().ToArray();
+        IMessageSender[] messageSenders = serviceProvider.GetServices<IMessageSender>().ToArray();
 
         try
         {
             foreach (IMessageReceiver messageReceiver in messageReceivers)
             {
-                messageReceiver.OnMessageReceived += data =>
+                messageReceiver.OnMessageReceived += async data =>
                 {
-                    MessageData s = data;
-                    return Task.CompletedTask;
+                    foreach (IMessageSender messageSender in messageSenders)
+                        await messageSender.SendMessage(new(data.messageId), CancellationToken.None);
                 };
 
                 await messageReceiver.Start();

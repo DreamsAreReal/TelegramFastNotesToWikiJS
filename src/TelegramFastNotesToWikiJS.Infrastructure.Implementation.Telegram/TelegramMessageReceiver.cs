@@ -1,35 +1,31 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-using TelegramFastNotesToWikiJS.Domain.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
-using TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Abstractions;
+using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.UpdateHandlers.Abstractions;
 
-namespace TelegramFastNotesToWikiJS.Infrastructure.Telegram;
+namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
 
 internal class TelegramMessageReceiver : IMessageReceiver
 {
-    public event Func<MessageData, Task>? OnMessageReceived;
+    public event Func<ReceivedMessage, Task>? OnMessageReceived;
 
     private readonly UpdateType[] _allowedUpdates = { UpdateType.Message, };
-    private readonly TelegramBotClient _bot;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly IOptions<TelegramConfiguration> _configuration;
     private bool _isStarted;
     private readonly ILogger<TelegramMessageReceiver> _logger;
+    private readonly TelegramClient _telegramClient;
     private readonly ITelegramUpdateHandler _telegramUpdateHandler;
 
-    public TelegramMessageReceiver(IOptions<TelegramConfiguration> configuration,
-                                   ITelegramUpdateHandler telegramUpdateHandler,
-                                   ILogger<TelegramMessageReceiver> logger
+    public TelegramMessageReceiver(ITelegramUpdateHandler telegramUpdateHandler,
+                                   ILogger<TelegramMessageReceiver> logger,
+                                   TelegramClient telegramClient
     )
     {
-        _configuration = configuration;
         _telegramUpdateHandler = telegramUpdateHandler;
         _logger = logger;
-        _bot = new(_configuration.Value.Token);
+        _telegramClient = telegramClient;
     }
 
     public void Dispose()
@@ -43,10 +39,10 @@ internal class TelegramMessageReceiver : IMessageReceiver
         if (_isStarted)
             throw new InvalidOperationException("The bot is already started.");
 
-        if (!await _bot.TestApiAsync(_cancellationTokenSource.Token))
+        if (!await _telegramClient.Bot.TestApiAsync(_cancellationTokenSource.Token))
             throw new InvalidOperationException("The API token test was unsuccessful.");
 
-        _bot.StartReceiving(
+        _telegramClient.Bot.StartReceiving(
             _telegramUpdateHandler, new() { AllowedUpdates = _allowedUpdates, },
             _cancellationTokenSource.Token
         );

@@ -2,9 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Infrastructure.Abstractions", "TelegramFastNotesToWikiJS.Infrastructure.Abstractions\TelegramFastNotesToWikiJS.Infrastructure.Abstractions.csproj", "{5056BFF9-36DA-4168-A497-5105B28B098A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Infrastructure.Telegram", "TelegramFastNotesToWikiJS.Infrastructure.Telegram\TelegramFastNotesToWikiJS.Infrastructure.Telegram.csproj", "{B6541595-D38A-449B-AC68-B326C8078410}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram", "TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram\TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.csproj", "{B6541595-D38A-449B-AC68-B326C8078410}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Infrastructure.WikiJs", "TelegramFastNotesToWikiJS.Infrastructure.WikiJs\TelegramFastNotesToWikiJS.Infrastructure.WikiJs.csproj", "{DE0FE203-24A5-4728-B4BE-C54CB6E2A5DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs", "TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs\TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs.csproj", "{DE0FE203-24A5-4728-B4BE-C54CB6E2A5DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramFastNotesToWikiJS.Domain", "TelegramFastNotesToWikiJS.Domain\TelegramFastNotesToWikiJS.Domain.csproj", "{93024FA6-A52F-4DE9-870C-5BFCC30E6C50}"
 EndProject

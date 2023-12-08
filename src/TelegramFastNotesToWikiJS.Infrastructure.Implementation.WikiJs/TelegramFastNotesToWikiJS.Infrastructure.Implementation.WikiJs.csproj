@@ -4,11 +4,16 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>TelegramFastNotesToWikiJS.Infrastructure.WikiJs</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Domain\TelegramFastNotesToWikiJS.Domain.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Abstractions\TelegramFastNotesToWikiJS.Infrastructure.Abstractions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="GraphQL" Version="7.6.1"/>
     </ItemGroup>
 
 </Project>

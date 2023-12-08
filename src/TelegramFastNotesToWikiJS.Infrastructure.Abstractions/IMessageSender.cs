@@ -2,8 +2,7 @@ using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
 
 namespace TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
 
-public interface IMessageReceiver : IDisposable
+public interface IMessageSender
 {
-    event Func<ReceivedMessage, Task> OnMessageReceived;
-    Task Start();
+    Task SendMessage(MessageToSend message, CancellationToken cancellationToken);
 }

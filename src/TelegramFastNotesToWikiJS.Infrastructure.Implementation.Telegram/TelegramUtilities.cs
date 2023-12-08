@@ -2,7 +2,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using File = Telegram.Bot.Types.File;
 
-namespace TelegramFastNotesToWikiJS.Infrastructure.Telegram;
+namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
 
 internal class TelegramUtilities
 {
