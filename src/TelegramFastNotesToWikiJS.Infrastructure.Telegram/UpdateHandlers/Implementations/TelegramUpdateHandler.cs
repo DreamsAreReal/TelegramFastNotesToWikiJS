@@ -6,13 +6,13 @@ using Telegram.Bot.Types;
 using TelegramFastNotesToWikiJS.Domain.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
 using TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Abstractions;
-using File = Telegram.Bot.Types.File;
 
 namespace TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Implementations;
 
 internal class TelegramUpdateHandler(
     IOptions<TelegramConfiguration> configuration,
-    ILogger<TelegramUpdateHandler> logger
+    ILogger<TelegramUpdateHandler> logger,
+    TelegramUtilities telegramUtilities
 ) : ITelegramUpdateHandler
 {
     public event Func<MessageData, Task>? OnMessageReceived;
@@ -50,16 +50,13 @@ internal class TelegramUpdateHandler(
         }
 
         Stopwatch timer = Stopwatch.StartNew();
-        string? messageText = update.Message.Text;
-        string[] photosInBase64 = Array.Empty<string>();
-
-        if (update.Message.Photo is not null)
-            photosInBase64 = (await GetPhotoContentAsync(botClient, update.Message.Photo)).ToArray();
 
         await OnMessageReceived.Invoke(
             new(
-                string.IsNullOrWhiteSpace(messageText) ? null : messageText,
-                photosInBase64.Length == 0 ? null : photosInBase64
+                telegramUtilities.GetGroupOrMessageId(update.Message),
+                telegramUtilities.ExtractTextFromUpdate(update.Message),
+                await telegramUtilities.GetPhotoAsync(update.Message, botClient),
+                telegramUtilities.HasMediaGroup(update.Message)
             )
         );
 
@@ -68,36 +65,5 @@ internal class TelegramUpdateHandler(
         logger.LogInformation(
             "Received message. Time elapsed {ElapsedMilliseconds} ms", timer.ElapsedMilliseconds
         );
-    }
-
-    private async Task<IEnumerable<string>> GetPhotoContentAsync(ITelegramBotClient botClient,
-                                                                 IEnumerable<PhotoSize> photos
-    )
-    {
-        List<string> photoContentList = [];
-
-        foreach (PhotoSize photo in photos)
-        {
-            string? base64Content = await GetPhotoContentInBase64Async(botClient, photo.FileId);
-
-            if (!string.IsNullOrWhiteSpace(base64Content))
-                photoContentList.Add(base64Content);
-        }
-
-        return photoContentList;
-    }
-
-    private async Task<string?> GetPhotoContentInBase64Async(ITelegramBotClient botClient, string fileId)
-    {
-        File file = await botClient.GetFileAsync(fileId);
-
-        if (string.IsNullOrWhiteSpace(file.FilePath))
-            return null;
-
-        using MemoryStream memoryStream = new();
-        await botClient.DownloadFileAsync(file.FilePath, memoryStream);
-        memoryStream.Position = 0;
-        byte[] bytes = memoryStream.ToArray();
-        return Convert.ToBase64String(bytes);
     }
 }

@@ -13,12 +13,13 @@ public static class DependencyInjectionExtensions
                                                                 IConfiguration configuration
     )
     {
-        serviceCollection.AddOptions<TelegramConfiguration>(
-            configuration.GetSection(nameof(TelegramConfiguration)).ToString()
+        serviceCollection.Configure<TelegramConfiguration>(
+            configuration.GetSection(nameof(TelegramConfiguration))
         );
 
         serviceCollection.AddSingleton<IMessageReceiver, TelegramMessageReceiver>();
         serviceCollection.AddSingleton<ITelegramUpdateHandler, TelegramUpdateHandler>();
+        serviceCollection.AddTransient<TelegramUtilities>();
         return serviceCollection;
     }
 }

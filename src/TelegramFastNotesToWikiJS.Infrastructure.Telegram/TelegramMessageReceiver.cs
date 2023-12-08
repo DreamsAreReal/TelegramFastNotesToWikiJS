@@ -9,22 +9,32 @@ using TelegramFastNotesToWikiJS.Infrastructure.Telegram.UpdateHandlers.Abstracti
 
 namespace TelegramFastNotesToWikiJS.Infrastructure.Telegram;
 
-internal class TelegramMessageReceiver(
-    IOptions<TelegramConfiguration> configuration,
-    ITelegramUpdateHandler telegramUpdateHandler,
-    ILogger<TelegramMessageReceiver> logger
-) : IMessageReceiver
+internal class TelegramMessageReceiver : IMessageReceiver
 {
-    public event Func<MessageData, Task> OnMessageReceived;
+    public event Func<MessageData, Task>? OnMessageReceived;
 
     private readonly UpdateType[] _allowedUpdates = { UpdateType.Message, };
-    private readonly TelegramBotClient _bot = new(configuration.Value.Token);
+    private readonly TelegramBotClient _bot;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private readonly IOptions<TelegramConfiguration> _configuration;
     private bool _isStarted;
+    private readonly ILogger<TelegramMessageReceiver> _logger;
+    private readonly ITelegramUpdateHandler _telegramUpdateHandler;
+
+    public TelegramMessageReceiver(IOptions<TelegramConfiguration> configuration,
+                                   ITelegramUpdateHandler telegramUpdateHandler,
+                                   ILogger<TelegramMessageReceiver> logger
+    )
+    {
+        _configuration = configuration;
+        _telegramUpdateHandler = telegramUpdateHandler;
+        _logger = logger;
+        _bot = new(_configuration.Value.Token);
+    }
 
     public void Dispose()
     {
-        telegramUpdateHandler.OnMessageReceived -= OnMessageReceived;
+        _telegramUpdateHandler.OnMessageReceived -= OnMessageReceived;
         _cancellationTokenSource.Dispose();
     }
 
@@ -34,15 +44,16 @@ internal class TelegramMessageReceiver(
             throw new InvalidOperationException("The bot is already started.");
 
         if (!await _bot.TestApiAsync(_cancellationTokenSource.Token))
-            throw new InvalidOperationException("The API test was unsuccessful.");
+            throw new InvalidOperationException("The API token test was unsuccessful.");
 
         _bot.StartReceiving(
-            telegramUpdateHandler, new() { AllowedUpdates = _allowedUpdates, }, _cancellationTokenSource.Token
+            _telegramUpdateHandler, new() { AllowedUpdates = _allowedUpdates, },
+            _cancellationTokenSource.Token
         );
 
-        telegramUpdateHandler.OnMessageReceived += OnMessageReceived;
+        _telegramUpdateHandler.OnMessageReceived += OnMessageReceived;
         _isStarted = true;
         string allowedUpdatesStr = string.Join(",", _allowedUpdates.Select(x => x.ToString()));
-        logger.LogInformation("The bot has started. Allowed updates: {AllowedUpdates}", allowedUpdatesStr);
+        _logger.LogInformation("The bot has started. Allowed updates: {AllowedUpdates}", allowedUpdatesStr);
     }
 }
