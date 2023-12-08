@@ -51,7 +51,11 @@ internal class TelegramUpdateHandler(
 
         Stopwatch timer = Stopwatch.StartNew();
         string? text = telegramUtilities.ExtractTextFromUpdate(update.Message);
-        string? photo = await telegramUtilities.GetPhotoAsync(update.Message, botClient);
+
+        string? photo =
+            await telegramUtilities.GetPhotoAsync(update.Message, botClient).ConfigureAwait(false);
+
+        ;
 
         if (string.IsNullOrWhiteSpace(text) &&
             string.IsNullOrWhiteSpace(photo))
@@ -68,9 +72,7 @@ internal class TelegramUpdateHandler(
 
         await OnMessageReceived.Invoke(
             new(
-                telegramUtilities.GetGroupOrMessageId(update.Message),
-                telegramUtilities.ExtractTextFromUpdate(update.Message),
-                await telegramUtilities.GetPhotoAsync(update.Message, botClient),
+                telegramUtilities.GetGroupOrMessageId(update.Message), text, photo,
                 telegramUtilities.HasMediaGroup(update.Message)
             )
         );
