@@ -18,6 +18,6 @@ internal class TelegramMessageSender : IMessageSender
         await _client.Bot.SendTextMessageAsync(
             _client.Configuration.OwnerId, $"{message.Text}\nSynced \u2705",
             cancellationToken: cancellationToken
-        );
+        ).ConfigureAwait(false);
     }
 }

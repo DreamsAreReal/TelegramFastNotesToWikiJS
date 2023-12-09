@@ -12,7 +12,7 @@ internal class TelegramUtilities
             return null;
 
         using MemoryStream memoryStream = new();
-        await botClient.DownloadFileAsync(file.FilePath, memoryStream);
+        await botClient.DownloadFileAsync(file.FilePath, memoryStream).ConfigureAwait(false);
         memoryStream.Position = 0;
         byte[] bytes = memoryStream.ToArray();
         return Convert.ToBase64String(bytes);
@@ -20,12 +20,12 @@ internal class TelegramUtilities
 
     private async Task<string?> DownloadFileInBase64Async(ITelegramBotClient botClient, string fileId)
     {
-        File file = await botClient.GetFileAsync(fileId);
+        File file = await botClient.GetFileAsync(fileId).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(file.FilePath))
             return null;
 
-        return await DownloadAndConvertFileAsync(botClient, file);
+        return await DownloadAndConvertFileAsync(botClient, file).ConfigureAwait(false);
     }
 
     internal string? ExtractTextFromUpdate(Message message)
@@ -48,7 +48,7 @@ internal class TelegramUtilities
         string? photoId = message.Photo.Last().FileId;
 
         if (!string.IsNullOrWhiteSpace(photoId))
-            return await DownloadFileInBase64Async(botClient, photoId);
+            return await DownloadFileInBase64Async(botClient, photoId).ConfigureAwait(false);
 
         return null;
     }

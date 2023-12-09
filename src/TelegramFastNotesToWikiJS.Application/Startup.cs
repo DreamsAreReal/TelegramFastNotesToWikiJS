@@ -27,7 +27,7 @@ public class Startup
                 messageReceiver.OnMessageReceived += async data =>
                 {
                     foreach (IMessageSender messageSender in messageSenders)
-                        await messageSender.SendMessage(new(data.messageId), CancellationToken.None).ConfigureAwait(false);
+                        await messageSender.SendMessage(new(data.messageId), CancellationToken.None);
                 };
 
                 await messageReceiver.Start();

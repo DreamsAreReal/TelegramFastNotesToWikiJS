@@ -39,7 +39,7 @@ internal class TelegramMessageReceiver : IMessageReceiver
         if (_isStarted)
             throw new InvalidOperationException("The bot is already started.");
 
-        if (!await _telegramClient.Bot.TestApiAsync(_cancellationTokenSource.Token))
+        if (!await _telegramClient.Bot.TestApiAsync(_cancellationTokenSource.Token).ConfigureAwait(false))
             throw new InvalidOperationException("The API token test was unsuccessful.");
 
         _telegramClient.Bot.StartReceiving(

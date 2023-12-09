@@ -9,8 +9,8 @@ namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
 
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection AddTelegramMessageReceiver(this IServiceCollection serviceCollection,
-                                                                IConfiguration configuration
+    public static IServiceCollection AddTelegram(this IServiceCollection serviceCollection,
+                                                 IConfiguration configuration
     )
     {
         serviceCollection.Configure<TelegramConfiguration>(

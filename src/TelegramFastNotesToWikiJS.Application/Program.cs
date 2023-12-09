@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using TelegramFastNotesToWikiJS.Application;
 using TelegramFastNotesToWikiJS.Application.Configurations;
 using TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
+using TelegramFastNotesToWikiJS.Infrastructure.WikiJs;
 
 IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                                           .AddJsonFile("appsettings.json", true, true)
@@ -13,18 +14,20 @@ IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Directory
                                                           );
 
 IConfiguration config = builder.Build();
+IServiceCollection serviceCollection = new ServiceCollection();
+serviceCollection.AddTelegram(config);
+serviceCollection.AddWikiJs(config);
 
-IServiceCollection serviceCollection = new ServiceCollection().AddLogging(
-                                                                  x => x.AddSimpleConsole(
-                                                                      options =>
-                                                                      {
-                                                                          options.TimestampFormat =
-                                                                              "[yyyy-MM-dd HH:mm:ss] ";
-                                                                      }
-                                                                  )
-                                                              )
-                                                              .AddTelegramMessageReceiver(config);
+serviceCollection.AddLogging(
+    x => x.AddSimpleConsole(
+        options =>
+        {
+            options.TimestampFormat = "[yyyy-MM-dd HH:mm:ss] ";
+        }
+    )
+);
 
 serviceCollection.Configure<EnvironmentConfiguration>(config.GetSection(nameof(EnvironmentConfiguration)));
 ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-await new Startup().Start(serviceProvider);
+
+await new Startup().Start(serviceProvider).ConfigureAwait(false);

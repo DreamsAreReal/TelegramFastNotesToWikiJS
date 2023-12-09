@@ -54,9 +54,7 @@ internal class TelegramUpdateHandler(
 
         string? photo =
             await telegramUtilities.GetPhotoAsync(update.Message, botClient).ConfigureAwait(false);
-
-        ;
-
+        
         if (string.IsNullOrWhiteSpace(text) &&
             string.IsNullOrWhiteSpace(photo))
         {
@@ -75,7 +73,7 @@ internal class TelegramUpdateHandler(
                 telegramUtilities.GetGroupOrMessageId(update.Message), text, photo,
                 telegramUtilities.HasMediaGroup(update.Message)
             )
-        );
+        ).ConfigureAwait(false);
 
         timer.Stop();
 
