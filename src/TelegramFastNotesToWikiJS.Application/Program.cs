@@ -9,6 +9,7 @@ using TelegramFastNotesToWikiJS.Infrastructure.WikiJs;
 
 IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                                           .AddJsonFile("appsettings.json", true, true)
+                                                          .AddEnvironmentVariables()
                                                           .AddUserSecrets(
                                                               Assembly.GetExecutingAssembly(), true
                                                           );

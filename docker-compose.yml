@@ -22,5 +22,5 @@
         WikiJsPageTemplateConfiguration__IsPublished: ${WikiJsPageTemplateConfiguration__IsPublished}
         WikiJsPageTemplateConfiguration__Path: ${WikiJsPageTemplateConfiguration__Path}
         WikiJsPageTemplateConfiguration__Title: ${WikiJsPageTemplateConfiguration__Title}
-        WikiJsPageTemplateConfiguration__Tags: ${WikiJsPageTemplateConfiguration__Tags}
+        WikiJsPageTemplateConfiguration__Tags__0: ${WikiJsPageTemplateConfiguration__Tags__0}
         
