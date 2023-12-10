@@ -10,7 +10,7 @@
         dockerfile: ./src/TelegramFastNotesToWikiJS.Application/Dockerfile
       restart: always
       environment:
-        EnvironmentConfiguration__Environment: ${EnvironmentConfiguration__Environment}
+        EnvironmentConfiguration__Environment: Production
         TelegramConfiguration__OwnerId: ${TelegramConfiguration__OwnerId}
         TelegramConfiguration__Token: ${TelegramConfiguration__Token}
         WikiJsConfiguration__BaseUri: ${WikiJsConfiguration__BaseUri}
