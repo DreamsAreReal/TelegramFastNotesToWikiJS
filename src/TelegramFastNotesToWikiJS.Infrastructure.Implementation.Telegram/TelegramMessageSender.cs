@@ -13,11 +13,12 @@ internal class TelegramMessageSender : IMessageSender
         _client = client;
     }
 
-    public async Task SendMessage(MessageToSend message, CancellationToken cancellationToken)
+    public async Task SendMessageAsync(MessageToSend message, CancellationToken cancellationToken)
     {
         await _client.Bot.SendTextMessageAsync(
-            _client.Configuration.OwnerId, $"{message.Text}\nSynced \u2705",
-            cancellationToken: cancellationToken
-        ).ConfigureAwait(false);
+                         _client.Configuration.OwnerId, $"{message.Text}",
+                         cancellationToken: cancellationToken
+                     )
+                     .ConfigureAwait(false);
     }
 }

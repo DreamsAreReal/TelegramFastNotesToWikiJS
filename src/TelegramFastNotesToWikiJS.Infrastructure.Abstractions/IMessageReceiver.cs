@@ -4,6 +4,6 @@ namespace TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
 
 public interface IMessageReceiver : IDisposable
 {
-    event Func<ReceivedMessage, Task> OnMessageReceived;
+    event Func<ReceivedMessage, Task> OnMessageReceivedAsync;
     Task Start();
 }

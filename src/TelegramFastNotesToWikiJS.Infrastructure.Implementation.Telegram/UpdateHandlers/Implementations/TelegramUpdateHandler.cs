@@ -15,7 +15,7 @@ internal class TelegramUpdateHandler(
     TelegramUtilities telegramUtilities
 ) : ITelegramUpdateHandler
 {
-    public event Func<ReceivedMessage, Task>? OnMessageReceived;
+    public event Func<ReceivedMessage, Task>? OnMessageReceivedAsync;
 
     public Task HandlePollingErrorAsync(ITelegramBotClient botClient,
                                         Exception exception,
@@ -30,7 +30,7 @@ internal class TelegramUpdateHandler(
                                         CancellationToken cancellationToken
     )
     {
-        if (OnMessageReceived is null)
+        if (OnMessageReceivedAsync is null)
             throw new ArgumentException("MessageReceived event is not handled.");
 
         if (update.Message is null)
@@ -54,13 +54,13 @@ internal class TelegramUpdateHandler(
 
         string? photo =
             await telegramUtilities.GetPhotoAsync(update.Message, botClient).ConfigureAwait(false);
-        
+
         if (string.IsNullOrWhiteSpace(text) &&
             string.IsNullOrWhiteSpace(photo))
         {
             timer.Stop();
 
-            logger.LogWarning(
+            logger.LogError(
                 "Both text and photo cannot be null or whitespace. Time elapsed {ElapsedMilliseconds} ms",
                 timer.ElapsedMilliseconds
             );
@@ -68,12 +68,14 @@ internal class TelegramUpdateHandler(
             return;
         }
 
-        await OnMessageReceived.Invoke(
-            new(
-                telegramUtilities.GetGroupOrMessageId(update.Message), text, photo,
-                telegramUtilities.HasMediaGroup(update.Message)
-            )
-        ).ConfigureAwait(false);
+        await OnMessageReceivedAsync.Invoke(
+                                        new(
+                                            telegramUtilities.GetGroupOrMessageId(update.Message), text,
+                                            photo,
+                                            telegramUtilities.HasMediaGroup(update.Message)
+                                        )
+                                    )
+                                    .ConfigureAwait(false);
 
         timer.Stop();
 

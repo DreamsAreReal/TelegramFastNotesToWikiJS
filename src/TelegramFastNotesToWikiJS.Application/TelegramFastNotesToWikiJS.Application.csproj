@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Domain\TelegramFastNotesToWikiJS.Domain.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Abstractions\TelegramFastNotesToWikiJS.Infrastructure.Abstractions.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram\TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs\TelegramFastNotesToWikiJS.Infrastructure.Implementation.WikiJs.csproj"/>

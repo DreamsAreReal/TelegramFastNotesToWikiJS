@@ -5,5 +5,5 @@ namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram.Updat
 
 internal interface ITelegramUpdateHandler : IUpdateHandler
 {
-    event Func<ReceivedMessage, Task> OnMessageReceived;
+    event Func<ReceivedMessage, Task> OnMessageReceivedAsync;
 }

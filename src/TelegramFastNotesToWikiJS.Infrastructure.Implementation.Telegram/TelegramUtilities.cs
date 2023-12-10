@@ -1,3 +1,4 @@
+using System.Text;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using File = Telegram.Bot.Types.File;
@@ -47,10 +48,17 @@ internal class TelegramUtilities
 
         string? photoId = message.Photo.Last().FileId;
 
-        if (!string.IsNullOrWhiteSpace(photoId))
-            return await DownloadFileInBase64Async(botClient, photoId).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(photoId))
+            return null;
 
-        return null;
+        string? data = await DownloadFileInBase64Async(botClient, photoId).ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(data))
+            return null;
+
+        StringBuilder sb = new(data);
+        sb.Insert(0, "data:image/png;base64,");
+        return sb.ToString();
     }
 
     internal bool HasMediaGroup(Message message)

@@ -1,6 +1,3 @@
 namespace TelegramFastNotesToWikiJS.Infrastructure.Abstractions.Models;
 
-public record ReceivedMessage(string messageId, string? Message, string? PhotoInBase64, bool isBulk)
-{
-    public DateTime ReceivedAt { get; } = DateTime.UtcNow;
-}
+public record ReceivedMessage(string MessageId, string? Message, string? PhotoInBase64, bool IsBulk);

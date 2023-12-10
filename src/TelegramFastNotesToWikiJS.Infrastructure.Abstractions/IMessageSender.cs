@@ -4,5 +4,5 @@ namespace TelegramFastNotesToWikiJS.Infrastructure.Abstractions;
 
 public interface IMessageSender
 {
-    Task SendMessage(MessageToSend message, CancellationToken cancellationToken);
+    Task SendMessageAsync(MessageToSend message, CancellationToken cancellationToken);
 }

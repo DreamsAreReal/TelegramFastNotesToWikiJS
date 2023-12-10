@@ -15,7 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TelegramFastNotesToWikiJS.Domain\TelegramFastNotesToWikiJS.Domain.csproj"/>
         <ProjectReference Include="..\TelegramFastNotesToWikiJS.Infrastructure.Abstractions\TelegramFastNotesToWikiJS.Infrastructure.Abstractions.csproj"/>
     </ItemGroup>
 

@@ -9,7 +9,7 @@ namespace TelegramFastNotesToWikiJS.Infrastructure.Implementation.Telegram;
 
 internal class TelegramMessageReceiver : IMessageReceiver
 {
-    public event Func<ReceivedMessage, Task>? OnMessageReceived;
+    public event Func<ReceivedMessage, Task>? OnMessageReceivedAsync;
 
     private readonly UpdateType[] _allowedUpdates = { UpdateType.Message, };
     private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -30,7 +30,7 @@ internal class TelegramMessageReceiver : IMessageReceiver
 
     public void Dispose()
     {
-        _telegramUpdateHandler.OnMessageReceived -= OnMessageReceived;
+        _telegramUpdateHandler.OnMessageReceivedAsync -= OnMessageReceivedAsync;
         _cancellationTokenSource.Dispose();
     }
 
@@ -47,7 +47,7 @@ internal class TelegramMessageReceiver : IMessageReceiver
             _cancellationTokenSource.Token
         );
 
-        _telegramUpdateHandler.OnMessageReceived += OnMessageReceived;
+        _telegramUpdateHandler.OnMessageReceivedAsync += OnMessageReceivedAsync;
         _isStarted = true;
         string allowedUpdatesStr = string.Join(",", _allowedUpdates.Select(x => x.ToString()));
         _logger.LogInformation("The bot has started. Allowed updates: {AllowedUpdates}", allowedUpdatesStr);
