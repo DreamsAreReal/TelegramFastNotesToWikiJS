@@ -1,0 +1,25 @@
+  version: '3.8'
+
+  services:
+    telegramfastnotestowikijs:
+      image: telegramfastnotestowikijs
+      container_name: telegramfastnotestowikijs
+      hostname: telegramfastnotestowikijs
+      build:
+        context: ./
+        dockerfile: ./src/TelegramFastNotesToWikiJS.Application/Dockerfile
+      restart: always
+      environment:
+        EnvironmentConfiguration__Environment: ${EnvironmentConfiguration__Environment}
+        TelegramConfiguration__OwnerId: ${TelegramConfiguration__OwnerId}
+        TelegramConfiguration__Token: ${TelegramConfiguration__Token}
+        WikiJsConfiguration__BaseUri: ${WikiJsConfiguration__BaseUri}
+        WikiJsConfiguration__Token: ${WikiJsConfiguration__Token}
+        WikiJsPageTemplateConfiguration__Locale: ${WikiJsPageTemplateConfiguration__Locale}
+        WikiJsPageTemplateConfiguration__Description: ${WikiJsPageTemplateConfiguration__Description}
+        WikiJsPageTemplateConfiguration__Editor: ${WikiJsPageTemplateConfiguration__Editor}
+        WikiJsPageTemplateConfiguration__IsPrivate: ${WikiJsPageTemplateConfiguration__IsPrivate}
+        WikiJsPageTemplateConfiguration__IsPublished: ${WikiJsPageTemplateConfiguration__IsPublished}
+        WikiJsPageTemplateConfiguration__Path: ${WikiJsPageTemplateConfiguration__Path}
+        WikiJsPageTemplateConfiguration__Title: ${WikiJsPageTemplateConfiguration__Title}
+        
