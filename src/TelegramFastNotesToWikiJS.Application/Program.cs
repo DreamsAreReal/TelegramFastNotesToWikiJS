@@ -29,5 +29,5 @@ serviceCollection.AddLogging(
 
 serviceCollection.Configure<EnvironmentConfiguration>(config.GetSection(nameof(EnvironmentConfiguration)));
 ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
-await new Startup().Start(serviceProvider).ConfigureAwait(false);
+ILogger<Startup> logger = serviceProvider.GetService<ILogger<Startup>>()!;
+await new Startup(logger).Start(serviceProvider).ConfigureAwait(false);
