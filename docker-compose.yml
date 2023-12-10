@@ -8,7 +8,7 @@
       build:
         context: ./
         dockerfile: ./src/TelegramFastNotesToWikiJS.Application/Dockerfile
-      restart: always
+      restart: no
       environment:
         EnvironmentConfiguration__Environment: Production
         TelegramConfiguration__OwnerId: ${TelegramConfiguration__OwnerId}
